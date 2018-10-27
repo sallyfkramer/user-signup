@@ -20,9 +20,6 @@ def not_empty(x):
 
 def no_space(x):
     space = x.count(' ')
-    #for i in x:
-        #if x[i]==(" "):
-            #space += 1
     if space == 0:
         return True
     else:
@@ -91,6 +88,9 @@ def validate_input():
         else:
             if not contains(email):
                 email_error = "Not a valid email address."
+
+    if len(email)==0:
+        email_error = ''
 
     if not name_error and not password_error and not email_error:
         return redirect('/hello?name={0}'.format(name))
