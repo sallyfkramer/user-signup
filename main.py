@@ -20,9 +20,6 @@ def not_empty(x):
 
 def no_space(x):
     space = x.count(' ')
-    #for i in x:
-        #if x[i]==(" "):
-            #space += 1
     if space == 0:
         return True
     else:
@@ -92,6 +89,9 @@ def validate_input():
             if not contains(email):
                 email_error = "Not a valid email address."
 
+    if len(email)==0:
+        email_error = ''
+
     if not name_error and not password_error and not email_error:
         return redirect('/hello?name={0}'.format(name))
     else:
@@ -101,54 +101,6 @@ def validate_input():
 def hello():
     name = request.args.get('name')
     return render_template('greeting.html', name = name)
-
-
-
-def is_integer(num):
-    try:  
-        int(num)
-        return True
-    except ValueError:
-        return False
-
-@app.route('/validate-time' , methods=['POST'])
-def validate_time():
-
-    hours = request.form['hours']
-    minutes = request.form['minutes']
-
-    hours_error = ''
-    minutes_error = ''
-
-    if not is_integer(hours):
-        hours_error = "Not a valid integer"
-        hours = ''
-    else:
-        hours = int(hours)
-        if hours > 23 or hours < 0:
-            hours_error = "Hour value out of range."
-            hours = ''
-
-    if not is_integer(minutes):
-        minutes_error = "Not a valid integer"
-        minutes = ''
-    else:
-        minutes = int(minutes)
-        if minutes > 59 or minutes < 0 :
-            minutes_error = "Minute value out of range."
-            minutes = ''
-
-    if not minutes_error and not hours_error:
-        time = str(hours) + ':' + str(minutes)
-        return redirect('/valid-time?time={0}'.format(time))
-    else:
-        return render_template('form.html', hours_error=hours_error, minutes_error=minutes_error, hours=hours, minutes= minutes)
-
-
-@app.route('/valid-time')
-def valid_time():
-    time = request.args.get('time')
-    return '<h1>You submitted {0}. Thanks for submitting a valid time!</h1>'.format(time)
 
 
 app.run()
